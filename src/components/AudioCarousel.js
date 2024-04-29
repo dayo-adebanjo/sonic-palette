@@ -58,7 +58,6 @@ const AudioCarousel = () => {
 
 	return (
 		<AppContainer libraryStatus={libraryStatus}>
-			<Nav libraryStatus={libraryStatus} setLibraryStatus={setLibraryStatus} />
 			<Song currentSong={currentSong} />
 			<Player
 				isPlaying={isPlaying}
@@ -86,6 +85,7 @@ const AudioCarousel = () => {
 				ref={audioRef}
 				src={currentSong.audio}
 			/>
+			<Nav libraryStatus={libraryStatus} setLibraryStatus={setLibraryStatus} />
 		</AppContainer>
 	);
 };
