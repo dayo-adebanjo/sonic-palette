@@ -44,7 +44,7 @@ const DUMMY_VIDEOS = [
 }));*/
 
 const YoutubeSlide = ({ url, isSelected }) => (
-  <ReactPlayer width="100%" height="400px" url={url} playing={isSelected} />
+  <ReactPlayer width="100%" height="550px" url={url} playing={isSelected} />
 );
 
 const CarouselVideo = ({ data }) => {

@@ -66,9 +66,7 @@ export default function VerticalSlider() {
         valueLabelDisplay="auto"
         marks={marks}
       />
-    </Stack></div>
-    <div><Stack sx={{ width: 300, float:'center'}} spacing={1}>
-        <Typography id="track-amusement" gutterBottom>
+      <Typography id="track-amusement" gutterBottom>
         Amusement
       </Typography>
       <Slider

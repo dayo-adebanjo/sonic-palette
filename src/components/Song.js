@@ -4,16 +4,12 @@ import styled from "styled-components";
 const Song = ({ currentSong }) => {
 	return (
 		<SongContainer>
-			<Img src={currentSong.cover} alt={currentSong.name}></Img>
 			<H1>{currentSong.name}</H1>
-			<H2>{currentSong.artist}</H2>
 		</SongContainer>
 	);
 };
 
 const SongContainer = styled.div`
-	margin-top: 10vh;
-	min-height: 50vh;
 	max-height: 60vh;
 	display: flex;
 	flex-direction: column;
