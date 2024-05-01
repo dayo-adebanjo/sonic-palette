@@ -40,3 +40,7 @@
 .thumbs-wrapper {
   text-align: center;
 }
+
+.ytp-chrome-top {
+  display: none;
+}

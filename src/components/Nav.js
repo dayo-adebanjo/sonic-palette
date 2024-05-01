@@ -7,7 +7,7 @@ const Nav = ({ libraryStatus, setLibraryStatus }) => {
 	return (
 		<NavContainer>
 			<Button onClick={() => setLibraryStatus(!libraryStatus)}>
-				Change Audio!
+				Change Audio
 			</Button>
 		</NavContainer>
 	);

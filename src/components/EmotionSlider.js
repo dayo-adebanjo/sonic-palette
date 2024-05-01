@@ -1,116 +1,109 @@
 import * as React from 'react';
 import Stack from '@mui/material/Stack';
+import { styled } from '@mui/material/styles';
 import Slider from '@mui/material/Slider';
 import Typography from '@mui/material/Typography';
 
+
 function valuetext(value) {
-  return `${value}°C`;
+  return `${value}`;
 }
 
 const marks = [
   {
     value: 0,
-    label: '0%',
+    label: 'Exciting',
+  },
+  {
+    value: 16,
+    label: 'Happy',
+  },
+  {
+    value: 32,
+    label: 'Funny',
+  },
+  {
+    value: 50,
+    label: 'Neutral',
+  },
+  {
+    value: 66,
+    label: 'Sad',
+  },
+  {
+    value: 82,
+    label: 'Fear',
   },
   {
     value: 100,
-    label: '100%',
-  },
+    label: 'Anger',
+  }
 ];
+
+const EmSlider = styled(Slider)({
+  color: '#009eb9',
+  height: 400,
+  '& .MuiSlider-track': {
+    border: 'none',
+  },
+  '& .MuiSlider-thumb': {
+    height: 24,
+    width: 24,
+    backgroundColor: '#fff',
+    border: '2px solid currentColor',
+    '&:focus, &:hover, &.Mui-active, &.Mui-focusVisible': {
+      boxShadow: 'inherit',
+    },
+    '&::before': {
+      display: 'none',
+    },
+  },
+  '& .MuiSlider-valueLabel': {
+    lineHeight: 1.2,
+    fontSize: 12,
+    background: 'unset',
+    padding: 0,
+    width: 32,
+    height: 32,
+    borderRadius: '50% 50% 50% 0',
+    backgroundColor: '#009eb9',
+    transformOrigin: 'bottom left',
+    transform: 'translate(50%, -100%) rotate(-45deg) scale(0)',
+    '&::before': { display: 'none' },
+    '&.MuiSlider-valueLabelOpen': {
+      transform: 'translate(50%, -100%) rotate(-45deg) scale(1)',
+    },
+    '& > *': {
+      transform: 'rotate(45deg)',
+    },
+  },
+});
 
 export default function VerticalSlider() {
   return (
-    <div style={{display:'flex', justifyContent: 'space-evenly'}}>
-    <div><Stack sx={{ width: 300 }} spacing={1}>
-      <Typography id="track-joy" gutterBottom>
-        Joy
-      </Typography>
-      <Slider
-        //aria-label="Joy"
-        aria-labelledby="track-joy"
-        getAriaValueText={valuetext}
-        valueLabelDisplay="auto"
-        marks={marks}
-        defaultValue={0}
-      />
-      <Typography id="track-sorrow" gutterBottom>
-        Sorrow
-      </Typography>
-      <Slider
-        //aria-label="Sorrow"
-        defaultValue={0}
-        aria-labelledby="track-sorrow"
-        getAriaValueText={valuetext}
-        marks={marks}
-        valueLabelDisplay="auto"
-      />
-      <Typography id="track-fear" gutterBottom>
-        Fear
-      </Typography>
-      <Slider
-        //getAriaLabel={() => 'Fear'}
-        aria-labelledby="track-fear"
-        getAriaValueText={valuetext}
-        defaultValue={0}
-        valueLabelDisplay="auto"
-        marks={marks}
-      />
-      <Typography id="track-anger" gutterBottom>
-        Anger
-      </Typography>
-      <Slider
-        //getAriaLabel={() => 'Fear'}
-        aria-labelledby="track-anger"
-        getAriaValueText={valuetext}
-        defaultValue={0}
-        valueLabelDisplay="auto"
-        marks={marks}
-      />
-      <Typography id="track-amusement" gutterBottom>
-        Amusement
-      </Typography>
-      <Slider
-        //getAriaLabel={() => 'Fear'}
-        aria-labelledby="track-amusement"
-        getAriaValueText={valuetext}
-        defaultValue={0}
-        valueLabelDisplay="auto"
-        marks={marks}
-      />
-      <Typography id="track-excitement" gutterBottom>
-        Excitement
-      </Typography>
-      <Slider
-        //getAriaLabel={() => 'Fear'}
-        aria-labelledby="track-excitement"
-        getAriaValueText={valuetext}
-        defaultValue={0}
-        valueLabelDisplay="auto"
-        marks={marks}
-      />
-      <Typography id="track-disgust" gutterBottom>
-        Disgust
-      </Typography>
-      <Slider
-        //getAriaLabel={() => 'Fear'}
-        aria-labelledby="track-disgust"
-        getAriaValueText={valuetext}
-        defaultValue={0}
-        valueLabelDisplay="auto"
-        marks={marks}
-      />
-      <Typography id="track-neutral" gutterBottom>
-        Neutral
-      </Typography>
-      <Slider
-        //getAriaLabel={() => 'Fear'}
-        aria-labelledby="track-neutral"
-        getAriaValueText={valuetext}
-        defaultValue={0}
-        valueLabelDisplay="auto"
-        marks={marks}
-      />
-    </Stack></div>
+    <div style={{display:'flex', 
+    justifyContent: 'space-evenly', 
+    fontFamily: 'Garamond',
+    fontSize: 11,
+    color: 'white',
+    height:'100%'}}>
+    
+      <EmSlider
+            aria-label="Emotion"
+            defaultValue={50}
+            getAriaValueText={valuetext}
+            step={null}
+            marks={marks}
+            orientation="vertical"
+            sx={{
+              '& .MuiSlider-markLabel': {
+                color: 'white',
+                fontFamily: 'Gill Sans'
+              },
+            }}
+          />
+      
     </div>
   );
+  
 }
