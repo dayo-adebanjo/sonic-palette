@@ -9,25 +9,46 @@ import { Button } from '@mui/material';
 //009eb9
 //119cd8
 
-
 function App() {
-
   const [songURL, setSunoSong] = useState("");
-  
+  const [songDesc, setSongDesc] = useState(""); 
+  const [isGenerating, setGenerating] = useState(false);
+
   async function generateScore() {
+    setGenerating(true);
     const response = await fetch("http://127.0.0.1:8000/generate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      //body: JSON.stringify(data)
+      body: JSON.stringify({
+        "prompt": "",
+        "mv": "chirp-v3-0",
+        "title": "",
+        "tags": songDesc
+      })
     });
     const songJSON = await response.json();
     const feed = songJSON.clips[0].id; 
-    const song = await fetch("http://127.0.0.1:8000/feed" + feed ); 
+
+    for (let i = 0; i < 20; i++) {
+      const songResponse = await fetch("http://127.0.0.1:8000/feed/" + feed ); 
+      const song = await songResponse.json();
+      console.log(song)
+      if (song[0].status === "streaming") {
+        console.log(song[0].audio_url);
+        setSunoSong(song[0].audio_url);
+        console.log(songDesc);
+        console.log(songURL);
+        setGenerating(true);
+        break;
+      }
+      // sleep 5s
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+    }
+
     
   }
-
   return (
     <div style={{display:'flex', color: 'white'}}>
       <div style={{flex:1, backgroundColor: '#131428'}}>
@@ -35,16 +56,18 @@ function App() {
         <div>
           <div style={{textAlign: 'center', fontSize: 11}}><VerticalSlider/></div>
             <div style={{margin: 'auto', textAlign: 'center', padding:'25px'}}>
-              <Button variant="contained" onClick={generateScore()}
+              <Button variant="contained" onClick={generateScore}
               style={{ backgroundColor: '#009eb9', textTransform: 'none'}}>Generate Score</Button>
             </div>
         </div>
       </div>
       <div style={{flex:2, backgroundColor: '#009eb9'}}>
-        <div style ={{paddingTop:-5}}><VideoCarousel/></div>
-        <div className="carousel-section">
-          <AudioCarousel />
-        </div>
+        <div style ={{paddingTop:-5}}><VideoCarousel setSongDesc={setSongDesc}/></div>
+       { isGenerating ? 
+       <div></div> :
+       <div className="carousel-section">
+          <video controls="" autoplay="" name="media"><source src="https://audiopipe.suno.ai/?item_id=89b720d1-765e-4d23-8f58-aebe92a0f7d1" type="audio/mp3"/></video>
+        </div> }
       </div>
       
     </div>

@@ -9,19 +9,23 @@ import Grid from '@mui/material/Grid';
 const DUMMY_VIDEOS = [
   {
    _id: 'door',
-   videoUrl: './vids/door.mov'
+   videoUrl: './vids/door.mov', 
+   desc: 'sad melancholy pop song'
   },
   {
     _id: 'beach',
-    videoUrl: './vids/beach.mov'
+    videoUrl: './vids/beach.mov', 
+    desc: ''
    },
    {
     _id: 'fire',
-    videoUrl: './vids/fire.mov'
+    videoUrl: './vids/fire.mov',
+    desc: ''
    },
    {
     _id: 'lightning',
-    videoUrl: './vids/lighting.mov'//change
+    videoUrl: './vids/lighting.mov', //change
+    desc: 'sad melancholy pop lightning'
    }
 ];
 
@@ -35,19 +39,21 @@ const YoutubeSlide = ({ url, isSelected }) => (
   <ReactPlayer width="100%" height="550px" url={url} playing={isSelected} />
 );
 
-const CarouselVideo = ({ data }) => {
-  //const classes = useStyles();
 
+const CarouselVideo = ({ data, setSongDesc }) => {
+  //const classes = useStyles();
+  const onClickThumb = (index, item) => {
+    console.log(item)
+    setSongDesc(item.props.desc);
+  };
   const customRenderItem = (item, props) => (
     <item.type {...item.props} {...props} />
   );
   const customRenderThumb = children =>
     children.map(item => {
-      console.log(item)
       const videoId = item.key;
       const src = './vids/thumbnail/' + videoId + '.png'; 
-      console.log(src); 
-      return <img key={videoId} src={src} />;
+      return <img key={videoId} src={src} desc={item.props.desc}/>;
       //return <img key={videoId} src={getVideoThumb(videoId)} />;
 
   });
@@ -63,14 +69,17 @@ const CarouselVideo = ({ data }) => {
        infiniteLoop={true}
        renderItem={customRenderItem}
        renderThumbs={customRenderThumb}
+       onClickThumb={onClickThumb}
        style={{height:20}}
      >
       {data.map(v => (
         <YoutubeSlide
           url={v.videoUrl}
           muted
+          loop
           playing={false}
           key={v._id ? v._id : v.id}
+          desc={v.desc}
         />
       ))}
      </Carousel>
