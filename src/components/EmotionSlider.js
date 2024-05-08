@@ -32,11 +32,11 @@ const marks = [
   },
   {
     value: 82,
-    label: 'Fear',
+    label: 'Fearful',
   },
   {
     value: 100,
-    label: 'Anger',
+    label: 'Angry',
   }
 ];
 
@@ -79,7 +79,19 @@ const EmSlider = styled(Slider)({
   },
 });
 
-export default function VerticalSlider() {
+export default function VerticalSlider({setEmotion}) {
+  const onChange = (event, value) => {
+    console.log(event); 
+    console.log(value)
+    marks.forEach((mark) => {
+      if (mark.value == value){
+        console.log(mark.label); 
+        setEmotion(mark.label);
+      }
+    })
+  };
+
+
   return (
     <div style={{display:'flex', 
     justifyContent: 'space-evenly', 
@@ -101,6 +113,7 @@ export default function VerticalSlider() {
                 fontFamily: 'Gill Sans'
               },
             }}
+            onChange={onChange}
           />
       
     </div>

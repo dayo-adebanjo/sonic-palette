@@ -5,6 +5,7 @@ import AudioCarousel from './components/AudioCarousel';
 import VerticalSlider from './components/EmotionSlider';
 import { Button, CircularProgress } from '@mui/material';
 import AudioPlayer from 'react-h5-audio-player';
+import { AssemblyAI } from 'assemblyai';
 import 'react-h5-audio-player/lib/styles.css';
 //import { Logo } from './logo.png'
 
@@ -13,7 +14,9 @@ import 'react-h5-audio-player/lib/styles.css';
 
 function App() {
   const [songURL, setSunoSong] = useState("");
+  const [audioURL, setAudioURL ] = useState(""); 
   const [songDesc, setSongDesc] = useState(""); 
+  const [emotion, setEmotion] = useState("neutral"); 
   const [isGenerating, setGenerating] = useState(false);
 
   useEffect(() => {
@@ -21,8 +24,28 @@ function App() {
     console.log('songURL has been updated:', songURL);
   }, [songURL]);
 
-  async function generateScore() {
+  async function generateSummary(){
     setGenerating(true);
+    console.log(audioURL);
+    const API_key = '1d64342dd11a49d395a4bfd9c2c6fd56';
+    const client = new AssemblyAI({ apiKey: API_key });
+    await client.transcripts.transcribe({
+      audio: audioURL,
+      summarization: true,
+      summary_model: "informative",
+      summary_type: "headline"
+      })
+      .then(transcript => {
+        console.log(transcript)
+        generateScore(transcript.summary)
+      })
+      .catch(console.error);
+
+  }
+
+  async function generateScore(transcript) {
+    setGenerating(true);
+    console.log( emotion  + " melody to a scene of " + songDesc); 
     const response = await fetch("http://127.0.0.1:8000/generate", {
       method: "POST",
       headers: {
@@ -32,7 +55,7 @@ function App() {
         "prompt": "",
         "mv": "chirp-v3-0",
         "title": "",
-        "tags": songDesc
+        "tags": emotion  + " " + songDesc
       })
     });
     const songJSON = await response.json();
@@ -58,7 +81,7 @@ function App() {
       <div style={{flex:1, backgroundColor: '#131428'}}>
         <div><img src="./logo.png" style={{height:250, textAlign: 'center', paddingLeft: 27}}/></div>
         <div>
-          <div style={{textAlign: 'center', fontSize: 11}}><VerticalSlider/></div>
+          <div style={{textAlign: 'center', fontSize: 11}}><VerticalSlider setEmotion={setEmotion}/></div>
             <div style={{margin: 'auto', textAlign: 'center', padding:'25px'}}>
               <Button variant="contained" onClick={generateScore}
               style={{ backgroundColor: '#009eb9', textTransform: 'none'}}>Generate Score</Button>
@@ -66,9 +89,9 @@ function App() {
         </div>
       </div>
       <div style={{flex:2, backgroundColor: '#009eb9'}}>
-        <div style ={{paddingTop:-5}}><VideoCarousel setSongDesc={setSongDesc}/></div>
+        <div style ={{paddingTop:-5}}><VideoCarousel setAudioURL={setAudioURL} setSongDesc={setSongDesc}/></div>
        { isGenerating ? 
-       <div> <CircularProgress /> </div> :
+       <div style={{margin: "auto"}}> <CircularProgress /> </div> :
        <div className="carousel-section">
           <AudioPlayer
             autoPlay

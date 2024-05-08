@@ -10,22 +10,22 @@ const DUMMY_VIDEOS = [
   {
    _id: 'door',
    videoUrl: './vids/door.mov', 
-   desc: 'scary slow instrumental for 15 seconds'
+   desc: 'mysterious violin melody about locked doors'
   },
   {
     _id: 'beach',
     videoUrl: './vids/beach.mov', 
-    desc: 'happy fun pop beachy song'
-   },
-   {
-    _id: 'fire',
-    videoUrl: './vids/fire.mov',
-    desc: ''
+    desc: 'beachy vibes about someone walking down the beach'
    },
    {
     _id: 'lightning',
     videoUrl: './vids/light.mp4', //change
-    desc: 'sad melancholy pop lightning'
+    desc: 'song about lightning striking'
+   },
+   {
+    _id: 'horses',
+    videoUrl: './vids/horses.mp4',
+    desc: 'country song about horses running down a field'
    }
 ];
 
@@ -36,14 +36,15 @@ const DUMMY_VIDEOS = [
 }));*/
 
 const YoutubeSlide = ({ url, isSelected }) => (
-  <ReactPlayer width="100%" height="550px" url={url} playing={isSelected} />
+  <ReactPlayer width="100%" height="550px" url={url} playing={isSelected} loop={true} />
 );
 
 
-const CarouselVideo = ({ data, setSongDesc }) => {
+const CarouselVideo = ({ data, setAudioURL, setSongDesc }) => {
   //const classes = useStyles();
   const onClickThumb = (index, item) => {
     console.log(item)
+    setAudioURL(item.props.url);
     setSongDesc(item.props.desc);
   };
   const customRenderItem = (item, props) => (
@@ -53,7 +54,7 @@ const CarouselVideo = ({ data, setSongDesc }) => {
     children.map(item => {
       const videoId = item.key;
       const src = './vids/thumbnail/' + videoId + '.png'; 
-      return <img key={videoId} src={src} desc={item.props.desc}/>;
+      return <img key={videoId} src={src} url={item.props.url} desc={item.props.desc}/>;
       //return <img key={videoId} src={getVideoThumb(videoId)} />;
 
   });
@@ -76,7 +77,6 @@ const CarouselVideo = ({ data, setSongDesc }) => {
         <YoutubeSlide
           url={v.videoUrl}
           muted
-          loop
           playing={false}
           key={v._id ? v._id : v.id}
           desc={v.desc}
