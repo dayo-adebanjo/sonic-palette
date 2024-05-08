@@ -10,12 +10,12 @@ const DUMMY_VIDEOS = [
   {
    _id: 'door',
    videoUrl: './vids/door.mov', 
-   desc: 'sad melancholy pop song'
+   desc: 'scary slow instrumental for 15 seconds'
   },
   {
     _id: 'beach',
     videoUrl: './vids/beach.mov', 
-    desc: ''
+    desc: 'happy fun pop beachy song'
    },
    {
     _id: 'fire',
@@ -24,7 +24,7 @@ const DUMMY_VIDEOS = [
    },
    {
     _id: 'lightning',
-    videoUrl: './vids/lighting.mov', //change
+    videoUrl: './vids/light.mp4', //change
     desc: 'sad melancholy pop lightning'
    }
 ];

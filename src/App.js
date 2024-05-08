@@ -1,9 +1,11 @@
 import './App.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import VideoCarousel from './components/VideoCarousel';
 import AudioCarousel from './components/AudioCarousel';
 import VerticalSlider from './components/EmotionSlider';
-import { Button } from '@mui/material';
+import { Button, CircularProgress } from '@mui/material';
+import AudioPlayer from 'react-h5-audio-player';
+import 'react-h5-audio-player/lib/styles.css';
 //import { Logo } from './logo.png'
 
 //009eb9
@@ -13,6 +15,11 @@ function App() {
   const [songURL, setSunoSong] = useState("");
   const [songDesc, setSongDesc] = useState(""); 
   const [isGenerating, setGenerating] = useState(false);
+
+  useEffect(() => {
+    // This effect will run after each state update
+    console.log('songURL has been updated:', songURL);
+  }, [songURL]);
 
   async function generateScore() {
     setGenerating(true);
@@ -38,17 +45,14 @@ function App() {
       if (song[0].status === "streaming") {
         console.log(song[0].audio_url);
         setSunoSong(song[0].audio_url);
-        console.log(songDesc);
-        console.log(songURL);
-        setGenerating(true);
+        setGenerating(false);
         break;
       }
       // sleep 5s
       await new Promise((resolve) => setTimeout(resolve, 5000));
-    }
-
-    
+    }  
   }
+
   return (
     <div style={{display:'flex', color: 'white'}}>
       <div style={{flex:1, backgroundColor: '#131428'}}>
@@ -64,12 +68,16 @@ function App() {
       <div style={{flex:2, backgroundColor: '#009eb9'}}>
         <div style ={{paddingTop:-5}}><VideoCarousel setSongDesc={setSongDesc}/></div>
        { isGenerating ? 
-       <div></div> :
+       <div> <CircularProgress /> </div> :
        <div className="carousel-section">
-          <video controls="" autoplay="" name="media"><source src="https://audiopipe.suno.ai/?item_id=89b720d1-765e-4d23-8f58-aebe92a0f7d1" type="audio/mp3"/></video>
+          <AudioPlayer
+            autoPlay
+            src={songURL}
+            onPlay={e => console.log("onPlay")}
+            // other props here
+          />
         </div> }
       </div>
-      
     </div>
   );
 }
